@@ -1,0 +1,15 @@
+WARNING:database:Database manager initialized - using mock data for development
+INFO:     Started server process [21747]
+INFO:     Waiting for application startup.
+INFO:__main__:Starting Unified Zaryah Plus Backend...
+ERROR:__main__:Failed to initialize Kite service: Failed to initialize Kite service: Incorrect `api_key` or `access_token`.
+INFO:__main__:Backend will continue in mock mode
+INFO:chromadb.telemetry.product.posthog:Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+ERROR:chromadb.telemetry.product.posthog:Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+ERROR:chromadb.telemetry.product.posthog:Failed to send telemetry event ClientCreateCollectionEvent: capture() takes 1 positional argument but 3 were given
+INFO:chatbot:Loaded existing vector store for user system
+INFO:tools:FinancialTools initialized with Kite Connect integration
+INFO:chatbot:Loaded 0 messages for user system
+INFO:__main__:AI models loaded successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)

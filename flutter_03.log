@@ -1,0 +1,83 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run -d chrome
+
+## exception
+
+FileSystemException: FileSystemException: Cannot create file, path = 'build/flutter_assets/assets/books/quran/Noor-Book.com%20%20%D8%B9%D8%B4%D8%B1%20%D9%88%D8%B5%D8%A7%D9%8A%D8%A7%20%D9%84%D9%82%D9%88%D8%A9%20%D8%A7%D9%84%D8%AD%D9%81%D8%B8%20%D9%88%D8%B9%D9%84%D8%A7%D8%AC%20%D8%A7%D9%84%D9%86%D8%B3%D9%8A%D8%A7%D9%86%20%D9%84%D8%B7%D9%84%D8%A7%D8%A8%20%D8%A7%D9%84%D8%B9%D9%84%D9%85.pdf' (OS Error: File name too long, errno = 63)
+
+```
+#0      _File.throwIfError (dart:io/file_impl.dart:783:7)
+#1      _File.createSync (dart:io/file_impl.dart:344:5)
+#2      ForwardingFile.createSync (package:file/src/forwarding/forwarding_file.dart:26:16)
+#3      ErrorHandlingFile.createSync.<anonymous closure> (package:flutter_tools/src/base/error_handling_io.dart:265:22)
+#4      _runSync (package:flutter_tools/src/base/error_handling_io.dart:552:14)
+#5      ErrorHandlingFile.createSync (package:flutter_tools/src/base/error_handling_io.dart:264:5)
+#6      ErrorHandlingFile.copySync.<anonymous closure> (package:flutter_tools/src/base/error_handling_io.dart:300:24)
+#7      _runSync (package:flutter_tools/src/base/error_handling_io.dart:552:14)
+#8      ErrorHandlingFile.copySync (package:flutter_tools/src/base/error_handling_io.dart:299:5)
+#9      writeBundle.<anonymous closure> (package:flutter_tools/src/bundle_builder.dart:215:19)
+<asynchronous suspension>
+#10     Future.wait.<anonymous closure> (dart:async/future.dart:546:21)
+<asynchronous suspension>
+#11     writeBundle (package:flutter_tools/src/bundle_builder.dart:171:3)
+<asynchronous suspension>
+#12     WebDevFS.update (package:flutter_tools/src/isolated/devfs_web.dart:336:9)
+<asynchronous suspension>
+#13     ResidentWebRunner._updateDevFS (package:flutter_tools/src/isolated/resident_web_runner.dart:783:35)
+<asynchronous suspension>
+#14     ResidentWebRunner.run.<anonymous closure> (package:flutter_tools/src/isolated/resident_web_runner.dart:324:41)
+<asynchronous suspension>
+#15     asyncGuard.<anonymous closure> (package:flutter_tools/src/base/async_guard.dart:108:24)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[32m[✓][39m Flutter (Channel stable, 3.38.3, on macOS 26.1 25B78 darwin-arm64, locale en-AU) [84ms]
+    [32m•[39m Flutter version 3.38.3 on channel stable at /opt/homebrew/share/flutter
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision 19074d12f7 (10 days ago), 2025-11-20 17:53:13 -0500
+    [32m•[39m Engine revision 13e658725d
+    [32m•[39m Dart version 3.10.1
+    [32m•[39m DevTools version 2.51.1
+    [32m•[39m Feature flags: enable-web, enable-linux-desktop, enable-macos-desktop,
+      enable-windows-desktop, enable-android, enable-ios, cli-animations, enable-native-assets,
+      omit-legacy-version-file, enable-lldb-debugging
+
+[33m[!][39m Android toolchain - develop for Android devices (Android SDK version 36.1.0) [500ms]
+    [32m•[39m Android SDK at /Users/ismaielshakir/Library/Android/sdk
+    [32m•[39m Emulator version 36.2.12.0 (build_id 14214601) (CL:N/A)
+    [32m•[39m Platform android-36, build-tools 36.1.0
+    [32m•[39m Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+      This JDK is specified in your Flutter configuration.
+      To change the current JDK, run: `flutter config --jdk-dir="path/to/jdk"`.
+    [31m✗[39m Cannot execute /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java to
+      determine the version
+
+[33m[!][39m Xcode - develop for iOS and macOS [731ms]
+    [31m✗[39m Xcode installation is incomplete; a full installation is necessary for iOS and macOS
+      development.
+      Download at: https://developer.apple.com/xcode/
+      Or install Xcode via the App Store.
+      Once installed, run:
+        sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+        sudo xcodebuild -runFirstLaunch
+    [32m•[39m CocoaPods version 1.16.2
+
+[32m[✓][39m Chrome - develop for the web [32ms]
+    [32m•[39m Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[32m[✓][39m Connected device (2 available) [103ms]
+    [32m•[39m macOS (desktop) • macos  • darwin-arm64   • macOS 26.1 25B78 darwin-arm64
+    [32m•[39m Chrome (web)    • chrome • web-javascript • Google Chrome 142.0.7444.176
+
+[32m[✓][39m Network resources [352ms]
+    [32m•[39m All expected network resources are available.
+
+[33m![39m Doctor found issues in 2 categories.
+```

@@ -1,0 +1,28 @@
+WARNING:database:Database manager initialized - using mock data for development
+INFO:     Started server process [8976]
+INFO:     Waiting for application startup.
+INFO:__main__:Starting Unified Zaryah Plus Backend...
+ERROR:__main__:Failed to initialize Kite service: Failed to initialize Kite service: HTTPSConnectionPool(host='api.kite.trade', port=443): Max retries exceeded with url: /user/profile (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x10bfa8e90>: Failed to resolve 'api.kite.trade' ([Errno 8] nodename nor servname provided, or not known)"))
+INFO:__main__:Backend will continue in mock mode
+INFO:chromadb.telemetry.product.posthog:Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+ERROR:chromadb.telemetry.product.posthog:Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+ERROR:chromadb.telemetry.product.posthog:Failed to send telemetry event ClientCreateCollectionEvent: capture() takes 1 positional argument but 3 were given
+INFO:chatbot:Created new vector store for user system
+INFO:tools:FinancialTools initialized with Kite Connect integration
+INFO:chatbot:Loaded 0 messages for user system
+INFO:__main__:AI models loaded successfully
+INFO:     Application startup complete.
+ERROR:    [Errno 1] error while attempting to bind on address ('0.0.0.0', 8000): operation not permitted
+INFO:     Waiting for application shutdown.
+INFO:__main__:Shutting down...
+ERROR:    Traceback (most recent call last):
+  File "/Users/ismaielshakir/Desktop/ZaryahPlusApp-Main/ZRHPlus_v1/.venv/lib/python3.11/site-packages/starlette/routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "/opt/homebrew/Cellar/python@3.11/3.11.14_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "/Users/ismaielshakir/Desktop/ZaryahPlusApp-Main/ZRHPlus_v1/langchain_backend/app/main.py", line 75, in lifespan
+    await ws_manager.disconnect_all()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'WebSocketManager' object has no attribute 'disconnect_all'
+
+ERROR:    Application shutdown failed. Exiting.

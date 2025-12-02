@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for ZRH Plus App
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Halaqah registration files (ID cards, documents)
+    // Matches both regular event uploads and host profile uploads
+    match /halaqah_registrations/{eventId}/id_cards/{fileName} {
+      // Allow authenticated users to read files
+      allow read: if request.auth != null;
+
+      // Allow authenticated users to write new files with validation
+      allow write: if request.auth != null
+        && request.resource.size <= 5 * 1024 * 1024  // 5MB limit
+        && request.resource.contentType.matches('image/.*|application/pdf');
+    }
+
+    // Admin access to all files
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null
+        && request.auth.token.email == 'zrhhalaqah@gmail.com';
+    }
+
+    // Default: Deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

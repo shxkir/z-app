@@ -1,0 +1,249 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.email == 'zrhhalaqah@gmail.com' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+
+    function isHost(eventId) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/events/$(eventId)).data.hostId == request.auth.uid;
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if false;
+      allow update: if isHost(eventId) || isAdmin();
+      allow delete: if isAdmin();
+
+      match /registrations/{registrationId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update: if isOwner(resource.data.userId) || isHost(eventId) || isAdmin();
+        allow delete: if isOwner(resource.data.userId) || isAdmin();
+      }
+    }
+
+    match /halaqah_events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if false;
+      allow update: if resource.data.hostId == request.auth.uid || isAdmin();
+      allow delete: if isAdmin();
+
+      match /registrations/{registrationId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update: if isOwner(resource.data.userId) ||
+                        resource.data.hostId == request.auth.uid ||
+                        isAdmin();
+        allow delete: if isOwner(resource.data.userId) || isAdmin();
+      }
+    }
+
+    match /pendingEvents/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if resource.data.hostId == request.auth.uid || isAdmin();
+      allow delete: if resource.data.hostId == request.auth.uid || isAdmin();
+    }
+
+    match /halaqah_hosts/{hostId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(hostId);
+      allow update: if isOwner(hostId) || isAdmin();
+      allow delete: if isAdmin();
+
+      match /hosted_events/{eventId} {
+        allow read: if isAuthenticated();
+        allow write: if isOwner(hostId) || isAdmin();
+      }
+    }
+
+    match /halaqah_activity/{activityId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    match /halaqah_notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /registrations/{registrationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    match /tiswa_users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_schools/{schoolId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+
+      match /members/{memberId} {
+        allow read: if isAuthenticated();
+        allow write: if isAuthenticated();
+      }
+
+      match /announcements/{announcementId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update, delete: if isAuthenticated();
+      }
+    }
+
+    match /tiswa_resources/{resourceId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_event_registrations/{registrationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_subscriptions/{subscriptionId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    match /tiswa_analytics/{schoolId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+
+      match /{subcollection=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAuthenticated();
+      }
+    }
+
+    match /tiswa_activity_logs/{logId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated();
+    }
+
+    match /tiswa_downloads/{downloadId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated();
+    }
+
+    match /tiswa_resource_ratings/{ratingId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_forums/{forumId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+
+      match /posts/{postId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update: if isAuthenticated();
+        allow delete: if isAuthenticated();
+
+        match /comments/{commentId} {
+          allow read: if isAuthenticated();
+          allow create: if isAuthenticated();
+          allow update: if isAuthenticated();
+          allow delete: if isAuthenticated();
+        }
+      }
+    }
+
+    match /tiswa_notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /tiswa_school_registrations/{registrationId} {
+      allow read: if isAuthenticated();
+      allow create: if true;
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    match /support_tickets/{ticketId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /support_messages/{messageId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // RAG content for Raya/Sahaba answers (read-only to clients)
+    match /rag_chunks/{chunkId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    match /rag_sources/{sourceId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    match /_permission_test/{testId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /test_connection/{testId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Default: authenticated users can read; only admins can write
+    match /{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+}

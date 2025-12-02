@@ -1,0 +1,1 @@
+flutter build apk --release --split-per-abi && cd ./build/app/outputs/flutter-apk && explorer .
